@@ -1,18 +1,22 @@
 <template>
-  <div class="hello">
+  <div>
+    <loader v-if="loading"/>
     <ul v-if="!loading">
       <li v-for="(country, index) in countries" v-bind:key="index">
         {{ country.name }}
       </li>
+      <div v-if="!countries.length"><i>No countries available</i></div>
     </ul>
   </div>
 </template>
 
 <script>
 import { get } from '../http.js';
+import Loader from './Loader';
 
 export default {
   name: 'CountriesDirectory',
+  components: { Loader },
   data () {
     return {
       countries: [],
