@@ -1,0 +1,11 @@
+{
+  "name": "prerendering-example",
+  "version": "1.0.0",
+  "description": "A Node.js application built for demonstrate prerendering benefits in front-end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Carles Capellas",
+  "license": "ISC"
+}
