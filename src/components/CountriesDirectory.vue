@@ -12,7 +12,7 @@
 import { get } from '../http.js';
 
 export default {
-  name: 'HelloWorld',
+  name: 'CountriesDirectory',
   data () {
     return {
       countries: [],
