@@ -1,55 +1,45 @@
 <template>
   <div>
-    <h2>Countries directory</h2>
     <input v-model="filter" v-on:change="loadCountries" class="form-control" type="text" placeholder="Country name" />
     <loader v-if="loading"/>
-    <ul v-if="!loading">
-      <li v-for="(country, index) in countries" v-bind:key="index">
-        <b>{{ country.name }}</b> {{ country.population }}
-      </li>
-      <div v-if="!countries.length"><i>No countries available</i></div>
-    </ul>
+    <country-list v-if="!loading" :countries="countries" :noResultsMessage="filter ? null: 'You need to provide a text to search for'"/>
   </div>
 </template>
 
 <script>
 import { get } from '../http.js';
 import Loader from './Loader';
+import CountryList from './CountryList';
 
 export default {
-  name: 'CountriesDirectory',
-  components: { Loader },
+  name: 'CountrySearch',
+  components: { Loader, CountryList },
   data () {
     return {
       countries: [],
       filter: '',
-      loading: true
+      loading: false
     }
-  },
-  created() {
-    this.loadCountries()
   },
   methods: {
     loadCountries() {
-      this.loading = true;
-      get('countries', { filter: this.filter }, [])
-      .then(countries => {
-        this.countries = countries
-        this.loading = false
-      })
+      if (this.filter) {
+        this.loading = true;
+        get('countries', { filter: this.filter }, [])
+        .then(countries => {
+          this.countries = countries
+          this.loading = false
+        })
+      }
+      else {
+        this.countries = [];
+      }
     }
   }
 }
 </script>
 
 <style>
-  ul {
-    padding: 0;
-  }
-  li {
-    list-style-type: none;
-    padding: 5px;
-  }
   .form-control {
     padding: 6px 12px;
     padding: .375rem .75rem;
