@@ -2,13 +2,17 @@
   <div id="app">
     <h2>Countries directory</h2>
     <img src="./assets/logo.png">
+    <Navigation />
     <router-view/>
   </div>
 </template>
 
 <script>
+import Navigation from '@/components/Navigation'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: { Navigation }
 }
 </script>
 
