@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h2>Countries directory</h2>
-    <img src="./assets/logo.png">
+    <img src="/static/images/logo.png" />
     <Navigation />
     <router-view/>
   </div>
