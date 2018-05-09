@@ -1,5 +1,5 @@
 {
-  "name": "prerendering-example",
+  "name": "vue-ssr-server",
   "version": "1.0.0",
   "description": "A Node.js application built for demonstrate prerendering benefits in front-end",
   "main": "index.js",
