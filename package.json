@@ -1,5 +1,5 @@
 {
-  "name": "prerendering-example-ui",
+  "name": "vue-ssr-ui",
   "version": "1.0.0",
   "description": "A Vue application built for demonstrating prerendering benefits",
   "author": "Carles Capellas",

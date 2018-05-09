@@ -1,4 +1,4 @@
-# prerendering-example-ui
+# Vue SSR UI
 
 > A Vue application built for demonstrating prerendering benefits
 
