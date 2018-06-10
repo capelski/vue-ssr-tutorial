@@ -21,6 +21,10 @@ export default {
       loading: false
     }
   },
+  created() {
+    // Prerendering event
+        document.dispatchEvent(new Event('custom-render-trigger'))
+  },
   methods: {
     loadCountries() {
       if (this.filter) {

@@ -24,6 +24,8 @@ export default {
       .then(countries => {
         this.countries = countries
         this.loading = false
+        // Prerendering event
+        document.dispatchEvent(new Event('custom-render-trigger'))
       })
   }
 }

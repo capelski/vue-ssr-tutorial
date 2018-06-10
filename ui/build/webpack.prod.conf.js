@@ -67,7 +67,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       inject: true,
       minify: {
         removeComments: true,
-        collapseWhitespace: true,
+        collapseWhitespace: false,
         removeAttributeQuotes: true
         // more options:
         // https://github.com/kangax/html-minifier#options-quick-reference
@@ -80,7 +80,23 @@ const webpackConfig = merge(baseWebpackConfig, {
       staticDir: path.join(__dirname, '..', 'dist'),
       // Optional - The path your rendered app should be output to.
       outputDir: path.join(__dirname, '..', 'prerendered'),
-      routes: [ '/', '/search' ]
+      routes: [ '/', '/search' ],
+
+      // Server configuration options.
+      server: {
+        // Normally a free port is autodetected, but feel free to set this if needed.
+        port: 8080
+      },
+
+      renderer: new PrerenderSpaPlugin.PuppeteerRenderer({ 
+         // Optional - Wait to render until the specified event is dispatched on the document.
+        // eg, with `document.dispatchEvent(new Event('custom-render-trigger'))`
+        renderAfterDocumentEvent: 'custom-render-trigger',
+        
+        // Other puppeteer options.
+        // (See here: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions)
+        headless: false // Display the browser window when rendering. Useful for debugging.
+      })
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
