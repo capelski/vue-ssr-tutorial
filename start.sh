@@ -9,4 +9,4 @@ cd ../server
 echo "Installing server npm packages..."
 npm install
 echo "Starting nodejs server..."
-npm start &
+npm start
