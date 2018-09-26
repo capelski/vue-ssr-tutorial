@@ -1,8 +1,16 @@
 const express = require('express')
 const app = express()
 const countryService = require('./services/country-service')
+const fs = require('fs')
+const path = require('path')
+const bundle =  require('./public/server.bundle.js')
+const renderer = require('vue-server-renderer').createRenderer({
+	template: fs.readFileSync('./public/index.html', 'utf-8')
+})
 
-app.use(express.static('public'))
+// Expose only assets in static folder
+// (Otherwise, the index.html file in the public folder would be served directly)
+app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 
 const corsMiddleware = (req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "http://localhost:8080");
@@ -17,4 +25,20 @@ app.use('/api/countries', corsMiddleware, (req, res, next) => {
 	.then(filteredCountries => res.json(filteredCountries));
 });
 
-app.listen(3000, () => console.log('App running on port 3000'))
+app.get(['/', '/search'], (req, res, next) => { 
+
+	var context = { url: req.url };
+
+	bundle.default(context).then(app => {
+		// Context contains now the application store state
+	  	renderer.renderToString(app, context, (err, html) => {   
+			if (err) {
+				return res.status(500).end('Internal server error');
+			} else {
+				return res.end(html);
+			}
+	  	});
+  	}, err => res.status(500).end('Internal server error'));  
+});
+
+app.listen(3003, () => console.log('App running on port 3003'))
