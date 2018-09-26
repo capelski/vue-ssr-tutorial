@@ -5,17 +5,20 @@ import CountrySearch from '@/components/CountrySearch'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'TopCountries',
-      component: TopCountries
-    },
-    {
-      path: '/search',
-      name: 'CountrySearch',
-      component: CountrySearch
-    }
-  ]
-})
+export function createRouter () {
+  return new Router({
+    mode: 'history',
+    routes: [
+      {
+        path: '/',
+        name: 'TopCountries',
+        component: TopCountries
+      },
+      {
+        path: '/search',
+        name: 'CountrySearch',
+        component: CountrySearch
+      }
+    ]
+  });
+} 
