@@ -48,8 +48,7 @@ app.get(['/', '/search'], (req, res, next) => {
 	var context = { url: req.url };
 
 	bundle.default(context).then(app => {
-		// Context contains now the application store state
-		renderer.renderToString(app, context, (err, html) => {
+	  	renderer.renderToString(app, context, (err, html) => {   
 			if (err) {
 			  	return res.status(500).end('Internal server error');
 			} else {
