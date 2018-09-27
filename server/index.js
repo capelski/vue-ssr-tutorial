@@ -8,6 +8,24 @@ const renderer = require('vue-server-renderer').createRenderer({
 	template: fs.readFileSync('./public/index.html', 'utf-8')
 })
 
+// 1) Provide a fetch implementation
+// global.fetch = require('node-fetch');
+// Prerendering does not fail but still is not loading countries... Let's figure out why
+ // 2) Fetch wrapper
+// const fetch = require('node-fetch');
+// global.fetch = function(url, options) {
+// 	return fetch(url, options)
+// 	.catch(error => {
+// 		console.log('Network error');
+// 		console.log(error);
+// 	});
+// }
+// The network requests are not working because of the relative url
+ // 3) Fetch wrapper with absoluteUrl
+ const fetch = require('node-fetch');
+ const baseUrl = 'http://localhost:3004';
+ global.fetch = (url, options) => fetch(baseUrl + url, options);
+
 // Expose only assets in static folder
 // (Otherwise, the index.html file in the public folder would be served directly)
 app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
@@ -31,14 +49,15 @@ app.get(['/', '/search'], (req, res, next) => {
 
 	bundle.default(context).then(app => {
 		// Context contains now the application store state
-	  	renderer.renderToString(app, context, (err, html) => {   
+		renderer.renderToString(app, context, (err, html) => {
 			if (err) {
-				return res.status(500).end('Internal server error');
+			  	return res.status(500).end('Internal server error');
 			} else {
-				return res.end(html);
+				html = html.replace(/\<\!----\>/g, '').replace(/>[\s]+</g, '><');
+			  	return res.end(html);
 			}
 	  	});
   	}, err => res.status(500).end('Internal server error'));  
 });
 
-app.listen(3003, () => console.log('App running on port 3003'))
+app.listen(3004, () => console.log('App running on port 3004'))
