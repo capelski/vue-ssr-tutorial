@@ -6,7 +6,7 @@ import { createRouter } from './router'
 
 Vue.config.productionTip = false
 
-// export a factory function for creating fresh app, router and store instances
+// export a factory function for creating fresh app and router instances
 export function createApp() {
     const router = createRouter();
     const app = new Vue({
