@@ -23,7 +23,7 @@ const renderer = require('vue-server-renderer').createRenderer({
 // The network requests are not working because of the relative url
  // 3) Fetch wrapper with absoluteUrl
  const fetch = require('node-fetch');
- const baseUrl = 'http://localhost:3004';
+ const baseUrl = 'http://localhost:3005';
  global.fetch = (url, options) => fetch(baseUrl + url, options);
 
 // Expose only assets in static folder
@@ -48,7 +48,7 @@ app.get(['/', '/search'], (req, res, next) => {
 	var context = { url: req.url };
 
 	bundle.default(context).then(app => {
-	  	renderer.renderToString(app, context, (err, html) => {   
+	  	renderer.renderToString(app, context, (err, html) => {
 			if (err) {
 			  	return res.status(500).end('Internal server error');
 			} else {
@@ -59,4 +59,4 @@ app.get(['/', '/search'], (req, res, next) => {
   	}, err => res.status(500).end('Internal server error'));  
 });
 
-app.listen(3004, () => console.log('App running on port 3004'))
+app.listen(3005, () => console.log('App running on port 3005'))
