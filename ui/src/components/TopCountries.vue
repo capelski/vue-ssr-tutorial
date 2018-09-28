@@ -10,6 +10,14 @@ import { get } from '../http.js';
 import Loader from './Loader';
 import CountryList from './CountryList';
 
+function getCountries() {
+  return get('countries', null, [])
+    .then(countries => {
+      this.countries = countries
+      this.loading = false
+    });
+}
+
 export default {
   name: 'TopCountries',
   components: { Loader, CountryList },
@@ -19,12 +27,11 @@ export default {
       loading: true
     }
   },
+  asyncData() {
+    return getCountries.apply(this);
+  },
   created() {
-    get('countries', null, [])
-      .then(countries => {
-        this.countries = countries
-        this.loading = false
-      })
+    getCountries.apply(this);
   }
 }
 </script>

@@ -12,7 +12,12 @@ export default context => {
                 return reject({ code: 404 });
             }
 
-            resolve(app);
+            Promise.all(matchedComponents.map(component => 
+                component.asyncData && component.asyncData()))
+            .then(() => {
+                resolve(app);
+            })
+            .catch(reject);
 
         }, reject);
 
