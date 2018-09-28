@@ -38,6 +38,7 @@ const corsMiddleware = (req, res, next) => {
 };
 
 app.use('/api/countries', corsMiddleware, (req, res, next) => {
+	console.log('/api/countries endpoint accessed');
 	var filter = req.query.filter;
 	countryService.getCountries(filter)
 	.then(filteredCountries => res.json(filteredCountries));
@@ -47,11 +48,13 @@ app.get(['/', '/search'], (req, res, next) => {
 
 	var context = { url: req.url };
 
+	console.log('Server rendering started');
 	bundle.default(context).then(app => {
 	  	renderer.renderToString(app, context, (err, html) => {
 			if (err) {
 			  	return res.status(500).end('Internal server error');
 			} else {
+				console.log('Server rendering finalised');
 				html = html.replace(/\<\!----\>/g, '').replace(/>[\s]+</g, '><');
 			  	return res.end(html);
 			}
