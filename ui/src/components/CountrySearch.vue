@@ -1,56 +1,58 @@
 <template>
-  <div>
-    <input v-model="filter" v-on:change="loadCountries" class="form-control" type="text" placeholder="Country name" />
-    <loader v-if="loading"/>
-    <country-list v-if="!loading" :countries="countries" :noResultsMessage="filter ? null: 'You need to provide a text to search for'"/>
-  </div>
+    <div v-if="!loading">
+        <input v-model="filter" v-on:change="loadCountries" class="form-control" type="text" placeholder="Country name" />
+        <country-list :countries="countries" :noResultsMessage="filter ? null: 'You need to provide a text to search for'"/>
+    </div>
 </template>
 
 <script>
-import { get } from '../http.js';
-import Loader from './Loader';
-import CountryList from './CountryList';
+    import { get } from '../http.js';
+    import CountryList from './CountryList';
 
-export default {
-  name: 'CountrySearch',
-  components: { Loader, CountryList },
-  data () {
-    return {
-      countries: [],
-      filter: '',
-      loading: false
+    export default {
+        name: 'CountrySearch',
+        components: { CountryList },
+        data () {
+            return {
+                filter: ''
+            }
+        },
+        computed: {
+            countries() {
+                return this.$store.state.countries;
+            },
+            loading() {
+                return this.$store.state.loading.value;
+            }
+        },
+        mounted() {
+            this.$store.commit('setCountries', []);
+        },
+        methods: {
+            loadCountries(event) {
+                if (this.filter != '') {
+                    this.$store.dispatch('search', this.filter);
+                }
+                else {
+                    this.$store.commit('setCountries', []);
+                }
+            }
+        }
     }
-  },
-  methods: {
-    loadCountries() {
-      if (this.filter) {
-        this.loading = true;
-        get('countries', { filter: this.filter }, [])
-        .then(countries => {
-          this.countries = countries
-          this.loading = false
-        })
-      }
-      else {
-        this.countries = [];
-      }
-    }
-  }
-}
 </script>
 
 <style>
-  .form-control {
-    padding: 6px 12px;
-    padding: .375rem .75rem;
-    font-size: 16px;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s 
-  }
+    .form-control {
+        padding: 6px 12px;
+        padding: .375rem .75rem;
+        font-size: 16px;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s 
+    }
 </style>
