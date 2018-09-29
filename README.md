@@ -7,7 +7,7 @@ master
 ├── ssr-basic
 |   ├── ssr-fetch
 |   |    ├── ssr-async-data
-|   |    |   └── ssr-vuex
+|   |    |   ├── ssr-vuex
 ```
 
 - **master**: A simple Vue app scaffolded with vue-cli (using full webpack template), with asynchronous calls on page load. Also includes a Node.js server to serve the static Vue files and exposing a simple api where to fetch the data from
