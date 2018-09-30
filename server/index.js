@@ -17,4 +17,4 @@ app.use('/api/countries', corsMiddleware, (req, res, next) => {
 	.then(filteredCountries => res.json(filteredCountries));
 });
 
-app.listen(3001, () => console.log('App running on port 3001'))
+app.listen(3005, () => console.log('App running on port 3005'))
