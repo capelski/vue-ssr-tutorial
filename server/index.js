@@ -40,4 +40,4 @@ app.get(['/', '/search'], (req, res, next) => {
   	}, err => res.status(500).end('Internal server error'));  
 });
 
-app.listen(3003, () => console.log('App running on port 3003'))
+app.listen(3001, () => console.log('App running on port 3001'))
