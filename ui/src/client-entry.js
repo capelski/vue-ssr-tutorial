@@ -28,4 +28,30 @@ router.onReady(() => {
     })
    
     app.$mount('#app')
+
+    // On client side, the routing is not triggered when the page is loaded;
+    // the TopCountries component asyncData will not be executed and so it
+    // will keep showing the loader forever.
+    // In order for the component to be correctly loaded the first time we
+    // load the page (accessing TopCountries), we execute the asyncData manually
+
+    if (window.location.pathname === '/') {
+        const topCountriesComponent = router.getMatchedComponents('/')[0];
+        topCountriesComponent.asyncData().then(countries =>  {
+
+            // Because the component exported in TopCountries and the actual component
+            // rendered by Vue are diferent instances, Vue will not realize that the
+            // TopCountries data needs to be updated
+            const renderedTopCountries = app.$children[0].$children[1];
+            console.log(`Countries length after asyncData: ${renderedTopCountries.countries.length}`);
+
+            // It will not be updated either if we try to force an update:
+            renderedTopCountries.$forceUpdate();
+            console.log(`Countries length after $forceUpdate: ${renderedTopCountries.countries.length}`);
+    
+            // To make Vue aware of the changes, we need to trigger a change on the Vue observables:
+            renderedTopCountries.countries = countries
+            renderedTopCountries.loading = false
+        });
+    }
 })
