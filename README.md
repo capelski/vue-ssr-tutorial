@@ -7,13 +7,15 @@ master
 ├── ssr-basic
 |   ├── ssr-fetch
 |   |    ├── ssr-async-data
+|   |    |   ├── ssr-async-dirty
 |   |    |   ├── ssr-vuex
 ```
 
 - **master**: A simple Vue app scaffolded with vue-cli (using full webpack template), with asynchronous calls on page load. Also includes a Node.js server to serve the static Vue files and exposing a simple api where to fetch the data from
 - **ssr-basic**: Checking out from master, modifies the server to prerender the Vue application instead of directly serving the static files. It also includes the necessary webpack modifications to build a server bundle from the Vue application
 - **ssr-fetch**: First stone in the road! Fetch (the API used for the ajax calls) exists in the browsers but on the server; we need a workaround for that. Checking out from ssr-basic fixes the failing ajax calls on the server rendering
-- **ssr-async-data**: Next problem! The ajax calls are now performed, but Vue is not waiting for them to finish :( Checking out from ssr-fetch, the Vue components and router are modified to wait for the asynchronous calls
+- **ssr-async-data**: Next problem! The ajax calls are now performed, but Vue is not waiting for them to finish :( Checking out from ssr-fetch, the Vue components and router are modified to wait for the asynchronous calls after router events
+- **ssr-async-dirty**: Almost there! The server rendering waits for the asynchronous calls to finish, but there is no routing event on the client page load so asyncData is not executed and the loader is displayed for ever. Checking out from ssr-async-data, a hacky workaround is used to prove that simulating a router event on the page load does the trick
 - **ssr-vuex**: Finally working ^^ Checking out from ssr-async-data, solves the last problem: centralizes the state management in order that Vue knows that the asynchronous calls have already been executed during the server rendering and so, they don't need to be executed again
 
 ## Bonus
